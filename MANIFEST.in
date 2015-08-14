@@ -1,0 +1,2 @@
+include requirements.txt
+include posix_spawn/c/*

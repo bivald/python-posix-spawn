@@ -7,6 +7,7 @@ setup(
     license="MIT",
 
     packages=find_packages(),
+    package_data={"posix_spawn": ["c/*"]},
 
     zip_safe=False,
     ext_packages="posix_spawn"
