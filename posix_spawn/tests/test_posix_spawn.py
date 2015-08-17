@@ -6,7 +6,7 @@ import textwrap
 import pytest
 
 
-from posix_spawn import posix_spawn, FileActions
+from posix_spawn import posix_spawn, posix_spawnp, FileActions
 
 executable = sys.executable.encode('ascii')
 environ = getattr(os, 'environb', os.environ)
@@ -75,6 +75,10 @@ class TestPosixSpawn(object):
 
         assert exits(pid) == 0
         assert "environment" == envfile.read()
+
+    def test_echo_is_on_path(self):
+        pid = posix_spawnp("echo", ["echo", "hello world"])
+        assert exits(pid) == 0
 
 
 class TestFileActions(object):

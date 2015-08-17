@@ -1,3 +1,4 @@
+import functools
 import os
 
 from ._lib import lib, ffi
@@ -72,7 +73,8 @@ class FileActions(object):
         _check_error(res)
 
 
-def posix_spawn(path, args, env=None, file_actions=None, attributes=None):
+def _posix_spawn(posix_spawn_variant, path, args,
+                 env=None, file_actions=None, attributes=None):
     if not isinstance(path, bytes):
         raise TypeError(
             "path must be bytes not {0}.".format(type(path).__name__))
@@ -97,7 +99,7 @@ def posix_spawn(path, args, env=None, file_actions=None, attributes=None):
     env_list = [ffi.new("char[]", b"=".join([key, value]))
                 for key, value in env.items()] + [ffi.NULL]
 
-    res = lib.posix_spawn(
+    res = posix_spawn_variant(
         pid,
         path,
         file_actions,
@@ -108,3 +110,7 @@ def posix_spawn(path, args, env=None, file_actions=None, attributes=None):
     _check_error(res, path)
 
     return pid[0]
+
+
+posix_spawn = functools.partial(_posix_spawn, lib.posix_spawn)
+posix_spawnp = functools.partial(_posix_spawn, lib.posix_spawnp)
