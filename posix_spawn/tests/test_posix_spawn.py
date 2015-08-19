@@ -77,7 +77,7 @@ class TestPosixSpawn(object):
         assert "environment" == envfile.read()
 
     def test_echo_is_on_path(self):
-        pid = posix_spawnp("echo", ["echo", "hello world"])
+        pid = posix_spawnp(b"echo", [b"echo", b"hello world"])
         assert exits(pid) == 0
 
 
