@@ -112,5 +112,8 @@ def _posix_spawn(posix_spawn_variant, path, args,
     return pid[0]
 
 
-posix_spawn = functools.partial(_posix_spawn, lib.posix_spawn)
-posix_spawnp = functools.partial(_posix_spawn, lib.posix_spawnp)
+def posix_spawn(*args, **kwargs):
+    return _posix_spawn(lib.posix_spawn, *args, **kwargs)
+
+def posix_spawnp(*args, **kwargs):
+    return _posix_spawn(lib.posix_spawnp, *args, **kwargs)
