@@ -1,5 +1,11 @@
 posix-spawn (0.2-2) trusty; urgency=low
 
+  * fix build-depends.
+
+ -- Shaun Crampton <shaun@projectcalico.org>  Thu, 20 Aug 2015 11:16:08 +0100
+
+posix-spawn (0.2-2) trusty; urgency=low
+
   * fix lintian-found issues.
 
  -- Shaun Crampton <shaun@projectcalico.org>  Thu, 20 Aug 2015 11:16:08 +0100

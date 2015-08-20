@@ -5,12 +5,12 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
 MAINTAINER := Shaun Crampton <shaun@projectcalico.org>
 VERSION := 0.2
-DEBIAN_VERSION := 2
+DEBIAN_VERSION := 3
 FULL_VERSION := $(VERSION)-$(DEBIAN_VERSION)
 
 PYTHON_FILES := $(call rwildcard,posix_spawn/,*.py) $(wildcard *.py)
 CDEF_FILES := $(wildcard posix_spawn/c/*.[ch])
-DEB_FILES := debian/* debian/source/*
+DEB_FILES := debian/*
 SOURCE_FILES := $(PYTHON_FILES) $(CDEF_FILES) LICENSE MANIFEST.in README.md
 SOURCE_DEB_OUTPUT := deb_dist/posix-spawn_$(FULL_VERSION).dsc \
                      deb_dist/posix-spawn_$(FULL_VERSION)_source.changes \
@@ -40,7 +40,9 @@ $(SOURCE_DEB_OUTPUT): $(SOURCE_FILES) $(DEB_FILES)
 	    --debian-version $(DEBIAN_VERSION) \
 	    --maintainer "$(MAINTAINER)" \
 	    --suite trusty \
-	    --copyright-file debian/copyright
+	    --copyright-file debian/copyright \
+	    --build-depends "python-cffi (>=0.8.2)" \
+	    --depends "python-cffi (>=0.8.2)"
 
 .PHONY: src-deb
 src-deb: $(SOURCE_DEB_OUTPUT)
@@ -75,4 +77,5 @@ clean:
 	rm -rf .tox
 	rm -rf .eggs
 	rm -rf deb_dist
+	rm -rf posix_spawn/__pycache__
 	find -iname '*.pyc' -delete
