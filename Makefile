@@ -13,6 +13,9 @@ SOURCE_DEB_OUTPUT := deb_dist/posix-spawn_0.2-1.dsc \
                      deb_dist/posix-spawn_0.2.orig.tar.gz \
                      deb_dist/posix-spawn_0.2-1.debian.tar.gz
 
+.PHONY: all
+all: signed-src-deb
+
 # Source tarfile.
 dist/posix-spawn-$(VERSION).tar.gz: $(SOURCE_FILES)
 	python setup.py sdist
@@ -33,6 +36,14 @@ $(SOURCE_DEB_OUTPUT): $(SOURCE_FILES) $(DEB_FILES)
 
 .PHONY: src-deb
 src-deb: $(SOURCE_DEB_OUTPUT)
+
+.PHONY: signed-src-deb
+signed-src-deb: deb_dist/signed
+deb_dist/signed: $(SOURCE_DEB_OUTPUT)
+ifndef DEBSIGN_KEYID
+	$(error DEBSIGN_KEYID is undefined)
+endif
+	cd deb_dist; debsign *.changes && touch signed
 
 deb_dist/python-posix-spawn_0.2-1_amd64.deb: $(SOURCE_FILES) $(DEB_FILES)
 	./check_env.sh
