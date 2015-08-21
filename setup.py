@@ -4,7 +4,7 @@ from distutils.command.build import build
 from setuptools import setup, find_packages
 from setuptools.command.install import install
 
-VERSION = "0.2.post4"
+VERSION = "0.2.post5"
 
 SETUP_REQUIRES_ERROR = (
     "Requested setup command that needs 'setup_requires' while command line "
