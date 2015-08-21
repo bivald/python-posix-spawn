@@ -22,16 +22,21 @@ DEBIAN_VERSION := 1
 # This is the full version, as used i the filename of the dsc and debs.
 FULL_VERSION := $(VERSION)-$(DEBIAN_VERSION)
 
+ARCH := $(shell if [ `uname -p` = "x86_64" ]; then echo amd64; else echo i386; fi)
+
 # Find all the files that affect the build.
 PYTHON_FILES := $(call rwildcard,posix_spawn/,*.py) $(wildcard *.py)
 CDEF_FILES := $(wildcard posix_spawn/c/*.[ch])
 DEB_FILES := debian/*
 SOURCE_FILES := $(PYTHON_FILES) $(CDEF_FILES) LICENSE MANIFEST.in README.md
+
+# Ouput files.
 CHANGES_FILENAME := posix-spawn_$(FULL_VERSION)_source.changes
 SOURCE_DEB_OUTPUT := deb_dist/posix-spawn_$(FULL_VERSION).dsc \
                      deb_dist/$(CHANGES_FILENAME) \
                      deb_dist/posix-spawn_$(VERSION).orig.tar.gz \
                      deb_dist/posix-spawn_$(FULL_VERSION).debian.tar.gz
+DEB_FILENAME := python-posix-spawn_$(FULL_VERSION)_$(ARCH).deb
 
 .PHONY: all
 all: test signed-src-deb
@@ -76,8 +81,8 @@ endif
 
 # Shortcut to build a binary deb package for the current system.
 .PHONY: deb
-deb: deb_dist/python-posix-spawn_$(FULL_VERSION)_amd64.deb
-deb_dist/python-posix-spawn_$(FULL_VERSION)_amd64.deb: $(SOURCE_FILES) $(DEB_FILES)
+deb: deb_dist/$(DEB_FILENAME)
+deb_dist/$(DEB_FILENAME): $(SOURCE_FILES) $(DEB_FILES)
 	./check_env.sh
 	python setup.py --command-packages=stdeb.command bdist_deb
 
