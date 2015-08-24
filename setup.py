@@ -130,7 +130,7 @@ setup(
         "posix_spawn": ["c/*.c", "c/*.h"],
     },
     install_requires=[
-        "cffi==0.8.2",  # Ubuntu 14.04 version.
+        "cffi>=0.8.2",  # Ubuntu 14.04 version.
     ],
     zip_safe=False,
     **keywords_with_side_effects(sys.argv)
