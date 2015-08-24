@@ -7,21 +7,25 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 MAINTAINER := Shaun Crampton <shaun@projectcalico.org>
 
 # Default PPA to upload to.
-PPA := ppa:fasaxc/tests
+PPA := ppa:project-calico/icehouse-testing
+
+# Default signing key.
+DEBSIGN_KEYID := Calico
 
 # Pull the version directly from setup.py.
 VERSION := $(shell python ./setup.py --version)
 
-# This version should be incremented for each repaging of the same Python
+# This version should be incremented for each repackaging of the same Python
 # package version.  However, this doesn't work too well because the Python
 # source package build isn't repeatable and Launchpad complains if the source
 # package changes.  For now, it's easier to just bump the post versions in the
 # python package for each rebuild.
 DEBIAN_VERSION := 1
 
-# This is the full version, as used i the filename of the dsc and debs.
+# This is the full version, as used in the filename of the dsc and debs.
 FULL_VERSION := $(VERSION)-$(DEBIAN_VERSION)
 
+# Try to figure out the arch part fo the deb name.
 ARCH := $(shell if [ `uname -p` = "x86_64" ]; then echo amd64; else echo i386; fi)
 
 # Find all the files that affect the build.
@@ -30,7 +34,7 @@ CDEF_FILES := $(wildcard posix_spawn/c/*.[ch])
 DEB_FILES := debian/*
 SOURCE_FILES := $(PYTHON_FILES) $(CDEF_FILES) LICENSE MANIFEST.in README.md
 
-# Ouput files.
+# Output files.
 CHANGES_FILENAME := posix-spawn_$(FULL_VERSION)_source.changes
 SOURCE_DEB_OUTPUT := deb_dist/posix-spawn_$(FULL_VERSION).dsc \
                      deb_dist/$(CHANGES_FILENAME) \
