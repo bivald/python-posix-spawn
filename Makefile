@@ -93,7 +93,7 @@ deb_dist/$(DEB_FILENAME): $(SOURCE_FILES) $(DEB_FILES)
 # Upload the signed source package to launchpad.
 .PHONY: upload
 upload: deb_dist/signed
-	cd deb_dist && dput $(PPA) $(CHANGES_FILENAME)
+	cd deb_dist && dput -f $(PPA) $(CHANGES_FILENAME)
 
 # Run unit tests.
 .PHONY: test
