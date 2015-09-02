@@ -22,6 +22,8 @@ var/
 .installed.cfg
 *.egg
 .eggs
+deb_dist
+*.tar.gz
 
 # Installer logs
 pip-log.txt

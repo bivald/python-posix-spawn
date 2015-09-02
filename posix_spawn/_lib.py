@@ -35,12 +35,14 @@ class LazyLibrary(object):
         self._lock = threading.Lock()
 
     def __getattr__(self, name):
+        self.load()
+        return getattr(self._lib, name)
+
+    def load(self):
         if self._lib is None:
             with self._lock:
                 if self._lib is None:
                     self._lib = self._ffi.verifier.load_library()
-
-        return getattr(self._lib, name)
 
 
 CDEF = pkgutil.get_data('posix_spawn', 'c/cdef.h').decode('ascii')

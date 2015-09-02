@@ -14,6 +14,7 @@ def _check_error(errno, path=None):
 
 class FileActions(object):
     def __init__(self):
+        lib.load()  # Need to load the library before calling ffi.new(...).
         self._actions_t = ffi.gc(
             ffi.new("posix_spawn_file_actions_t *"),
             lib.posix_spawn_file_actions_destroy
