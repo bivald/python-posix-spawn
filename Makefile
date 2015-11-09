@@ -67,6 +67,10 @@ $(SOURCE_DEB_OUTPUT): $(SOURCE_FILES) $(DEB_FILES)
 	python setup.py --command-packages=stdeb.command sdist_dsc \
 	    --debian-version $(DEBIAN_VERSION)
 
+.PHONY: build-rpm
+build-rpm:
+	./build-rpms.sh
+
 # Lint the source deb.
 .PHONY: lint
 lint: src-deb
