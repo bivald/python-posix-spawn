@@ -1,2 +1,4 @@
 include requirements.txt
 include posix_spawn/c/*
+include LICENSE
+include README.md
