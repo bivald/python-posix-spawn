@@ -15,7 +15,7 @@ file descriptors to be executed in the child process before the child program is
 This is provided by the `FileActions` class.  For example, to redirect `stdout` to the parent 
 via a pipe:
 
-```
+```python
 from posix_spawn import *
 import os
 # Create the pipe.
