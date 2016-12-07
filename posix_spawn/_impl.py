@@ -83,8 +83,10 @@ def _posix_spawn(posix_spawn_variant, path, args,
     pid = ffi.new("pid_t *")
 
     if env is None:
-        env = getattr(os, 'environb', os.environ)
-
+        env = getattr(os, 'environb', False)
+        if env is False:
+            env = dict((key.encode('utf-8'), value.encode('utf-8')) for (key, value) in os.environ.items())
+        
     if file_actions is None:
         file_actions = ffi.NULL
     else:
