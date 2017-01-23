@@ -1,4 +1,4 @@
-# Copyright (c) 2015 Metaswitch Networks
+# Copyright (c) 2015 Tigera, Inc
 
 # Recursive wildcard function.
 rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
