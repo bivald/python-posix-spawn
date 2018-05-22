@@ -35,4 +35,5 @@ f = os.fdopen(c2pread, "r")
 f.read()  # Returns "Hello world!\n"
 # Clean up the child process.
 os.waitpid(pid, 0)  # Returns (pid, <returncode>)
+f.close()
 ```
